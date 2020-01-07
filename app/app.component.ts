@@ -6,46 +6,30 @@ import {
   NgbDatepickerI18n
 } from "@ng-bootstrap/ng-bootstrap";
 
-const I18N_VALUES = {
-  fr: {
-    weekdays: ["L", "M", "M", "J", "V", "S", "D"],
-    months: [
-      "Janvier",
-      "Février",
-      "Mars",
-      "Avr",
-      "Mai",
-      "Juin",
-      "Juil",
-      "Aou",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Déc"
-    ]
-  }
-  // other languages you would support
-};
-
-// Define a service holding the language. You probably already have one if your app is i18ned. Or you could also
-// use the Angular LOCALE_ID value
-@Injectable()
-export class I18n {
-  language = "fr";
-}
+const I18N_DATEPICKER_WEEKDAYS = ["L", "M", "M", "J", "V", "S", "D"];
+const I18N_DATEPICKER_MONTHS = [
+  "Janvier",
+  "Février",
+  "Mars",
+  "Avril",
+  "Mai",
+  "Juin",
+  "Juillet",
+  "Août",
+  "Septembre",
+  "Octobre",
+  "Novembre",
+  "Décembre"
+];
 
 // Define custom service providing the months and weekdays translations
 @Injectable()
 export class CustomDatepickerI18n extends NgbDatepickerI18n {
-  constructor(private _i18n: I18n) {
-    super();
-  }
-
   getWeekdayShortName(weekday: number): string {
-    return I18N_VALUES[this._i18n.language].weekdays[weekday - 1];
+    return I18N_DATEPICKER_WEEKDAYS[weekday - 1];
   }
   getMonthShortName(month: number): string {
-    return I18N_VALUES[this._i18n.language].months[month - 1];
+    return I18N_DATEPICKER_MONTHS[month - 1];
   }
   getMonthFullName(month: number): string {
     return this.getMonthShortName(month);
@@ -60,20 +44,16 @@ export class CustomDatepickerI18n extends NgbDatepickerI18n {
   selector: "app-component",
   styleUrls: ["./app.component.scss"],
   templateUrl: "./app.component.html",
-  providers: [
-    I18n,
-    { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n }
-  ]
+  providers: [{ provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n }]
 })
 export class AppComponent {
   hoveredDate: NgbDate;
-
   fromDate: NgbDate;
   toDate: NgbDate;
 
   constructor(private calendar: NgbCalendar) {
     this.fromDate = calendar.getToday();
-    this.toDate = calendar.getNext(calendar.getToday(), "d", 10);
+    this.toDate = calendar.getNext(calendar.getToday(), "m", 1);
   }
 
   lastDayOfMonth(date: NgbDate) {
