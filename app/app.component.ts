@@ -57,15 +57,15 @@ export class CustomDatepickerI18n extends NgbDatepickerI18n {
 }
 
 @Component({
-  selector: "app-datepicker",
-  styleUrls: ["./datepicker.component.scss"],
-  templateUrl: "./datepicker.component.html",
+  selector: "app-component",
+  styleUrls: ["./app.component.scss"],
+  templateUrl: "./app.component.html",
   providers: [
     I18n,
     { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n }
   ]
 })
-export class DateRangePickerComponent {
+export class AppComponent {
   hoveredDate: NgbDate;
 
   fromDate: NgbDate;
