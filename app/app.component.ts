@@ -56,8 +56,27 @@ export class AppComponent {
     this.toDate = calendar.getNext(calendar.getToday(), "m", 1);
   }
 
-  lastDayOfMonth(date: NgbDate) {
-    return this.calendar.getPrev(
+  events = [
+    {
+      fromDate: this.calendar.getPrev(this.calendar.getToday(), "d", 14),
+      toDate: this.calendar.getPrev(this.calendar.getToday(), "d", 8)
+    }
+  ];
+
+  isStartOfEvent(date:NgbDate){
+    return date.equals(this.fromDate);
+  }
+
+  isEndOfEvent(date:NgbDate){
+    return date.equals(this.toDate);
+  }
+
+  isFirstDayOfMonth(date: NgbDate) {
+    return date.day === 1;
+  }
+
+  isLastDayOfMonth(date: NgbDate) {
+    return date.day === this.calendar.getPrev(
       new NgbDate(date.year, date.month + 1, 1),
       "d",
       1
@@ -87,6 +106,13 @@ export class AppComponent {
 
   isInside(date: NgbDate) {
     return date.after(this.fromDate) && date.before(this.toDate);
+  }
+
+  isInsideEvent(date: NgbDate) {
+    return this.events.reduce((acc, event) => {
+      const isInside = date.after(event.fromDate) && date.before(event.toDate);
+      return acc || isInside;
+    }, false);
   }
 
   isRange(date: NgbDate) {
