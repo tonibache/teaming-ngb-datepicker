@@ -13,7 +13,8 @@
 </div>
 
 <ng-template #t let-date let-focused="focused" let-selected="selected">
-	<div class="text-center" [class.start]="date.equals(fromDate)" [class.end]="date.equals(toDate)" [class.first]="date.day === 1" [class.last]="date.day === lastDayOfMonth(date)"
+	<div class="text-center" [class.start]="date.equals(fromDate)" [class.end]="date.equals(toDate)"
+		[class.first]="date.day === 1" [class.last]="date.day === lastDayOfMonth(date)"
 		[class.faded]="isHovered(date) || isInside(date)">
 		<span class="custom-day" [class.focused]="focused" [class.range]="isRange(date)" [class.faded]="isHovered(date) || isInside(date)" (mouseenter)="hoveredDate = date"
       (mouseleave)="hoveredDate = null">
