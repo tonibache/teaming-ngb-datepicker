@@ -1,0 +1,112 @@
+
+@mixin faded-left {
+  background-color: transparent;
+  background-image: linear-gradient(left, transparent 50%, #5db0f8 50%,  #5db0f8 100%);
+  background-image: -webkit-linear-gradient(left, transparent 50%, #5db0f8 50%,  #5db0f8 100%);
+  background-image: -moz-linear-gradient(left, transparent 50%, #5db0f8 50%,  #5db0f8 100%);
+  background-image: -o-linear-gradient(left, transparent 50%, #5db0f8 50%,  #5db0f8 100%);
+}
+
+@mixin faded-right {
+  background-color: transparent;
+  background-image: linear-gradient(right, transparent 50%, #5db0f8 50%,  #5db0f8 100%);
+  background-image: -webkit-linear-gradient(right, transparent 50%, #5db0f8 50%,  #5db0f8 100%);
+  background-image: -moz-linear-gradient(right, transparent 50%, #5db0f8 50%,  #5db0f8 100%);
+  background-image: -o-linear-gradient(right, transparent 50%, #5db0f8 50%,  #5db0f8 100%);
+}
+
+.custom-day {
+  text-align: center;
+  padding: 0.185rem 0.25rem;
+  display: inline-block;
+  height: 2rem;
+  width: 2rem;
+}
+.custom-day.focused {
+  background-color: #e6e6e6;
+}
+.custom-day.range,
+.custom-day:hover {
+  border-radius: 50%;
+  background-color: rgb(2, 117, 216);
+  color: white;
+}
+.custom-day.faded {
+  border-radius: 50%;
+  background-color: rgba(93, 176, 248, 1);
+}
+
+:host ::ng-deep {
+  ngb-datepicker {
+    width: 100% !important;
+  }
+
+  .ngb-dp-month {
+      width: 100%;
+  }
+ 
+  .ngb-dp-day,
+  .ngb-dp-week-number,
+  .ngb-dp-weekday {
+    margin: 2px 0;
+    outline: none;
+  }
+
+  .ngb-dp-week{
+    .ngb-dp-day div.faded{
+      background-color: rgba(93, 176, 248, 1);
+    }
+
+    div.faded.first,
+    .ngb-dp-day:first-child div.faded{
+      @include faded-left;
+    }
+
+    div.faded.last,
+    .ngb-dp-day:last-child div.faded{
+      @include faded-right;
+    }
+  }
+
+  .ngb-dp-week{
+    display: flex !important;
+  }
+
+  .ngb-dp-day, .ngb-dp-weekday{
+      min-width: 2rem;
+      height: 2rem;
+      flex: 1 1 auto!important;
+      align-self: baseline!important;
+  }
+
+  .ngb-dp-day.hidden {
+    display: block !important;
+  }
+
+  .ngb-dp-header,
+  .ngb-dp-weekdays {
+    background: white !important;
+    border-bottom: 0px;
+  }
+
+  .ngb-dp-weekday {
+    font-weight: bold;
+    color: black;
+    font-style: normal;
+  }
+
+  .ngb-dp-month-name {
+    font-weight: bold;
+    color: black;
+    font-style: normal;
+    background: white;
+  }
+}
+
+.start {
+  @include faded-left;
+}
+
+.end{
+  @include faded-right;
+}
