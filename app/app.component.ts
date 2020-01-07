@@ -53,22 +53,26 @@ export class AppComponent {
 
   constructor(private calendar: NgbCalendar) {
     this.fromDate = calendar.getToday();
-    this.toDate = calendar.getNext(calendar.getToday(), "m", 1);
+    this.toDate = calendar.getNext(calendar.getToday(), "d", 3);
   }
 
   events = [
     {
-      fromDate: this.calendar.getPrev(this.calendar.getToday(), "d", 14),
-      toDate: this.calendar.getPrev(this.calendar.getToday(), "d", 8)
+      fromDate: this.calendar.getNext(this.calendar.getToday(), "d", 14),
+      toDate: this.calendar.getNext(this.calendar.getToday(), "m", 1)
+    },
+    {
+      fromDate: this.calendar.getNext(this.calendar.getToday(), "d", 5),
+      toDate: this.calendar.getNext(this.calendar.getToday(), "d", 8)
     }
   ];
 
-  isStartOfEvent(date:NgbDate){
-    return date.equals(this.fromDate);
+  isStartOfEvent(date: NgbDate) {
+    return date.equals(this.fromDate) || this.events.find((e) => date.equals(e.fromDate));
   }
 
-  isEndOfEvent(date:NgbDate){
-    return date.equals(this.toDate);
+  isEndOfEvent(date: NgbDate) {
+    return date.equals(this.toDate) || this.events.find((e) => date.equals(e.toDate));
   }
 
   isFirstDayOfMonth(date: NgbDate) {
@@ -76,11 +80,11 @@ export class AppComponent {
   }
 
   isLastDayOfMonth(date: NgbDate) {
-    return date.day === this.calendar.getPrev(
-      new NgbDate(date.year, date.month + 1, 1),
-      "d",
-      1
-    ).day;
+    return (
+      date.day ===
+      this.calendar.getPrev(new NgbDate(date.year, date.month + 1, 1), "d", 1)
+        .day
+    );
   }
 
   onDateSelection(date: NgbDate) {
@@ -96,16 +100,19 @@ export class AppComponent {
 
   isHovered(date: NgbDate) {
     return (
-      this.fromDate &&
-      !this.toDate &&
-      this.hoveredDate &&
-      date.after(this.fromDate) &&
-      date.before(this.hoveredDate)
+      (this.fromDate &&
+        !this.toDate &&
+        this.hoveredDate &&
+        date.after(this.fromDate) &&
+        date.before(this.hoveredDate)) 
     );
   }
 
   isInside(date: NgbDate) {
-    return date.after(this.fromDate) && date.before(this.toDate);
+    return (
+      (date.after(this.fromDate) && date.before(this.toDate)) ||
+      this.isInsideEvent(date)
+    );
   }
 
   isInsideEvent(date: NgbDate) {
@@ -117,8 +124,8 @@ export class AppComponent {
 
   isRange(date: NgbDate) {
     return (
-      date.equals(this.fromDate) ||
-      date.equals(this.toDate) ||
+      this.isStartOfEvent(date) ||
+      this.isEndOfEvent(date) ||
       this.isInside(date) ||
       this.isHovered(date)
     );
